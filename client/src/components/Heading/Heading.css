@@ -1,37 +1,32 @@
-/* Header Styling (original) */
 header {
   width: 100%;
   padding: 20px 40px;
-  background-color: #fff;
-  position: sticky; 
-  top: 0; 
-  z-index: 1000; 
+  background-color: var(--card-bg);
+  color: var(--text-color);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-/* Left side: title and subtitle */
 header #left {
   display: flex;
   flex-direction: column;
   gap: 3px;
 }
 
-/* Title */
 header h1 {
   font-size: 30px;
   margin: 0;
 }
-
-/* Subtitle */
 header p {
   color: gray;
   font-size: 16px;
   margin: 0;
 }
 
-/* ---------------- Responsive Design ---------------- */
 @media (max-width: 1200px) {
   header {
     padding: 18px 30px;
@@ -49,7 +44,7 @@ header p {
 @media (max-width: 900px) {
   header {
     padding: 15px 20px;
-    flex-direction: column; /* stack left and right vertically */
+    flex-direction: column;
     align-items: flex-start;
     gap: 20px;
   }

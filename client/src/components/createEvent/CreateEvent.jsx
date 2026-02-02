@@ -7,7 +7,7 @@ import api from "../../api/axios.js";
 import { useSelector, useDispatch } from "react-redux";
 import { setSelectedProfiles } from "../../redux/store/profileSlice.js";
 
-const CreateEvent = () => {
+const CreateEvent = ({ onEventCreated }) => {
   const dispatch = useDispatch();
   const selectedProfiles = useSelector(
     (state) => state.profile.selectedProfiles,
@@ -87,6 +87,9 @@ const CreateEvent = () => {
       setEndTime("09:00");
       dispatch(setSelectedProfiles([]));
 
+      // Trigger callback to refresh events list
+      if (onEventCreated) onEventCreated();
+
       console.log(res.data);
     } catch (error) {
       console.error(error, "error.......");
@@ -94,6 +97,9 @@ const CreateEvent = () => {
       alert("Failed to create event ❌");
     }
   };
+  // Get today's date in YYYY-MM-DD format for min attribute
+  const today = new Date().toISOString().split("T")[0];
+
   return (
     <div className="create-event-panel">
       <h2>Create Event</h2>
@@ -118,6 +124,7 @@ const CreateEvent = () => {
             <input
               type="date"
               value={startDate}
+              min={today}
               onChange={(e) => setStartDate(e.target.value)}
             />
             <input
@@ -134,6 +141,7 @@ const CreateEvent = () => {
             <input
               type="date"
               value={endDate}
+              min={startDate || today}
               onChange={(e) => setEndDate(e.target.value)}
             />
             <input

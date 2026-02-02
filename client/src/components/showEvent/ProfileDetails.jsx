@@ -4,18 +4,18 @@ import { FaRegEdit, FaRegCalendarAlt, FaRegClock } from "react-icons/fa";
 import { IoNewspaperOutline } from "react-icons/io5";
 import api from "../../api/axios";
 import moment from "moment-timezone";
-import EditEvent from "../updateEvent/EditEvent"; 
+import EditEvent from "../updateEvent/EditEvent";
 import EventLogs from "./EventLogs";
 import "./ProfileDetails.css";
 
-const ProfileDetails = ({ profile, allProfiles, timezone }) => {
+const ProfileDetails = ({ profile, allProfiles, timezone, refreshTrigger }) => {
   const [events, setEvents] = useState([]);
   const [editingEvent, setEditingEvent] = useState(null);
   const [viewingLogsEvent, setViewingLogsEvent] = useState(null);
 
   useEffect(() => {
     if (profile?._id) fetchEvents();
-  }, [profile]);
+  }, [profile, refreshTrigger]); 
 
   const fetchEvents = async () => {
     try {
@@ -43,7 +43,7 @@ const ProfileDetails = ({ profile, allProfiles, timezone }) => {
         {profile.name}'s Events
       </h3>
 
-     
+
       {editingEvent && (
         <EditEvent
           event={editingEvent}
@@ -54,7 +54,7 @@ const ProfileDetails = ({ profile, allProfiles, timezone }) => {
         />
       )}
 
-    
+
       {viewingLogsEvent && (
         <EventLogs
           event={viewingLogsEvent}
@@ -93,7 +93,7 @@ const ProfileDetails = ({ profile, allProfiles, timezone }) => {
             <div className="event-buttons">
               <button
                 className="btn edit-btn"
-                onClick={() => setEditingEvent(event)} 
+                onClick={() => setEditingEvent(event)}
               >
                 <FaRegEdit /> Edit
               </button>

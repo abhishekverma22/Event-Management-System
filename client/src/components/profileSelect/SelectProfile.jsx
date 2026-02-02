@@ -19,8 +19,6 @@ const SelectProfile = ({ width = "100%" }) => {
 
   const [open, setOpen] = useState(false);
   const [search, setSearch] = useState("");
-  const [newUser, setNewUser] = useState("");
-
   // Fetch profiles 
   useEffect(() => {
     fetchProfiles();
@@ -44,21 +42,6 @@ const SelectProfile = ({ width = "100%" }) => {
       : [...selectedProfiles, profile];
 
     dispatch(setSelectedProfiles(updated));
-  };
-
-  const handleAddProfile = async () => {
-    if (!newUser.trim()) return;
-
-    try {
-      const res = await api.post("/api/create-profile", { name: newUser });
-      if (res.data.data) {
-        dispatch(addProfile(res.data.data));
-        dispatch(setSelectedProfiles([...selectedProfiles, res.data.data]));
-        setNewUser("");
-      }
-    } catch (err) {
-      console.error(err);
-    }
   };
 
   const filteredProfiles = profiles.filter((p) =>
@@ -110,15 +93,6 @@ const SelectProfile = ({ width = "100%" }) => {
               );
             })}
           </ul>
-
-          <div className="add-user">
-            <input
-              placeholder="Add new user"
-              value={newUser}
-              onChange={(e) => setNewUser(e.target.value)}
-            />
-            <button onClick={handleAddProfile}>Add</button>
-          </div>
         </div>
       )}
     </div>

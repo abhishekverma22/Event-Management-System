@@ -33,17 +33,19 @@ export const getEventsByProfile = async (req, res) => {
     const { profile_id } = req.params;
     const { time_zone } = req.query;
 
+    // Check permissions: Admin or Owner
+    if (req.profile.role !== "admin" && req.profile._id.toString() !== profile_id) {
+       // Allow admins to view any profile events
+       // But if user A tries to view user B's events, deny.
+       return sendError(res, "Unauthorized request", 403);
+    }
+
     const events = await EventModel.find({
       participants: profile_id,
     }).sort({ start_date_time: 1 });
 
     if (!events.length) {
-      return res.status(200).json({
-        success: true,
-        error: false,
-        msg: "No events found for this user",
-        data: [],
-      });
+      return sendSuccess(res, "No events found for this user", 200, []);
     }
     const allProfileIds = events.flatMap((e) => e.participants);
     const profiles = await ProfileModel.find({ _id: { $in: allProfileIds } });
@@ -75,34 +77,33 @@ export const getEventsByProfile = async (req, res) => {
       return obj;
     });
 
-    return res.status(200).json({
-      success: true,
-      error: false,
-      msg: "Events fetched successfully",
-      data: formattedEvents,
-    });
+    return sendSuccess(res, "Events fetched successfully", 200, formattedEvents);
   } catch (error) {
     console.error(error);
-    return res.status(500).json({
-      success: false,
-      error: true,
-      msg: error.message,
-      data: [],
-    });
+    return sendError(res, error.message, 500);
   }
 };
+
 export const updateEvent = async (req, res) => {
   try {
     const { event_id } = req.params;
-    const { participants, time_zone, start_date_time, end_date_time, updated_by } =
+    const { participants, time_zone, start_date_time, end_date_time } =
       req.body;
 
     const event = await EventModel.findById(event_id);
     if (!event) return sendError(res, "Event not found", 404);
 
+    // Permission check
+    const isAdmin = req.profile.role === "admin";
+    const isParticipant = event.participants.some(p => p.toString() === req.profile._id.toString());
+
+    if (!isAdmin && !isParticipant) {
+        return sendError(res, "You do not have permission to edit this event", 403);
+    }
+
     const changes = {};
 
-  
+    /* Participants */
     if (participants) {
       const oldP = event.participants.map(String).sort();
       const newP = participants.map(String).sort();
@@ -113,13 +114,13 @@ export const updateEvent = async (req, res) => {
       }
     }
 
-    
+    /* Timezone */
     if (time_zone && time_zone !== event.time_zone) {
       changes.time_zone = { old: event.time_zone, new: time_zone };
       event.time_zone = time_zone;
     }
 
-    
+    /* Date & Time */
     if (start_date_time || end_date_time) {
       const tz = time_zone || event.time_zone;
 
@@ -152,10 +153,9 @@ export const updateEvent = async (req, res) => {
 
     await event.save();
 
-
     await EventLogModel.create({
       event: event._id,
-      updated_by: updated_by || null,
+      updated_by: req.profile._id,
       changes,
     });
 

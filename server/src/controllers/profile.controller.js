@@ -1,12 +1,19 @@
 import { ProfileModel } from "../models/profile.model.js";
 import { sendError, sendSuccess } from "../utils/response.helper.js";
+import jwt from "jsonwebtoken";
+
+const generateToken = (id, role) => {
+  return jwt.sign({ id, role }, process.env.JWT_SECRET || "secret", {
+    expiresIn: "30d",
+  });
+};
 
 export const createProfile = async (req, res) => {
   try {
-    const { name } = req.body;
+    const { name, password, role } = req.body;
 
-    if (!name) {
-      return sendError(res, "Required User Name..", 400);
+    if (!name || !password) {
+      return sendError(res, "Name and Password are required", 400);
     }
     const user_profile = await ProfileModel.findOne({ name });
 
@@ -16,25 +23,68 @@ export const createProfile = async (req, res) => {
 
     const payload = {
       name,
+      password, // Pre-save hook will hash this
+      role: role || "user",
     };
 
     const newProfile = await ProfileModel.create(payload);
-    sendSuccess(res, "User account create successfully", 201);
+    sendSuccess(res, "User account created successfully", 201, {
+      _id: newProfile._id,
+      name: newProfile.name,
+      role: newProfile.role,
+    });
 
   } catch (error) {
     return sendError(res, error, 500);
   }
 };
 
+export const loginProfile = async (req, res) => {
+  try {
+    const { name, password } = req.body;
+    if (!name || !password) return sendError(res, "All fields required", 400);
+
+    const user = await ProfileModel.findOne({ name }).select("+password");
+
+    if (!user || !(await user.isPasswordCorrect(password))) {
+      return sendError(res, "Invalid credentials", 401);
+    }
+
+    const token = generateToken(user._id, user.role);
+
+    // Send cookie
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
+    });
+
+    sendSuccess(res, "Login successful", 200, {
+      _id: user._id,
+      name: user.name,
+      role: user.role,
+      token, // Also sending token in body for convenience
+    });
+  } catch (error) {
+    return sendError(res, error.message, 500);
+  }
+};
+
+export const logoutProfile = async (req, res) => {
+  res.cookie("token", "", {
+    httpOnly: true,
+    expires: new Date(0),
+  });
+  sendSuccess(res, "Logged out successfully", 200);
+};
+
 export const getProfiles = async (req, res) => {
   try {
+    // Only return password-less profiles
     const profiles = await ProfileModel.find().sort({ name: 1 });
 
-    return res.status(200).json({
-      success: true,
-      data: profiles,
-    });
+    return sendSuccess(res, "Profiles fetched", 200, profiles);
   } catch (err) {
-    return res.status(500).json({ error: err.message });
+    return sendError(res, err.message, 500);
   }
 };

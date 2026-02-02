@@ -1,16 +1,20 @@
 .create-event-panel {
-  background: #fff;
+  background: var(--card-bg);
   min-height: 50vh;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  padding: 30px;
+  /* Increased from 20px */
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
   font-family: Arial, sans-serif;
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
 }
 
 /* Heading */
 .create-event-panel h2 {
   margin-bottom: 20px;
-  font-size: 24px; /* base font size */
+  font-size: 24px;
+  color: var(--text-color);
 }
 
 /* Form groups */
@@ -24,12 +28,14 @@
   margin-bottom: 5px;
   font-weight: 500;
   font-size: 14px;
+  color: var(--text-color);
 }
 
 /* Date & Time styling */
 .datetime-group {
   display: flex;
-  flex-direction: column; /* stack start/end vertically */
+  flex-direction: column;
+  /* stack start/end vertically */
   gap: 15px;
 }
 
@@ -45,13 +51,15 @@
 }
 
 .datetime-input.full-width input {
-  flex: 1; /* inputs share equal width */
+  flex: 1;
+  /* inputs share equal width */
   padding: 8px 10px;
   border-radius: 5px;
-  color: #5f5f5f;
+  color: var(--text-color);
   font-weight: 700;
-  border: 1px solid #ccc;
+  border: 1px solid var(--border-color);
   font-size: 14px;
+  background-color: var(--bg-color);
 }
 
 /* Button styling */
@@ -111,7 +119,8 @@
   }
 
   .datetime-input.full-width {
-    flex-direction: column; /* stack date/time vertically */
+    flex-direction: column;
+    /* stack date/time vertically */
   }
 
   .datetime-input.full-width input {
