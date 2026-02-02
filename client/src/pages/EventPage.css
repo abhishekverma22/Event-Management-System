@@ -1,6 +1,57 @@
-section{
-    width: 100vw;
-    height: 100vh;
-    background-color: #F6F7F9;
 
+main {
+  width: 100%;
+  min-height: 80vh;
+  font-family: Arial, sans-serif;
+  padding: 0;
+  margin: 0;
+}
+
+/* Header styling */
+header {
+  width: 100%;
+  padding: 20px 40px;
+}
+
+/* Container for both sections */
+.event-container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 20px;
+  padding: 40px;
+  flex-wrap: wrap; /* responsive wrapping */
+}
+
+/* CreateEvent section (left) */
+.event-container > section:first-child {
+  flex: 1;
+  min-width: 300px;
+  background-color: #f3f4f6;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+/* ShowEvent section (right) */
+.event-container > section:last-child {
+  flex: 1;
+  min-width: 400px;
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+/* Responsive for smaller screens */
+@media (max-width: 900px) {
+  .event-container {
+    flex-direction: column;
+    padding: 20px;
+  }
+
+  .event-container > section:first-child,
+  .event-container > section:last-child {
+    min-width: 100%;
+  }
 }

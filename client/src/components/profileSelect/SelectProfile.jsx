@@ -1,13 +1,17 @@
 import { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { setSelectedProfiles, setProfiles, addProfile } from "../../redux/store/profileSlice.js"
 import { RiExpandUpDownLine } from "react-icons/ri";
 import { FaCheck } from "react-icons/fa";
 import api from "../../api/axios";
 import "./SelectProfile.css";
 
-const SelectProfile = ({ onChange }) => {
+const SelectProfile = ({width}) => {
+  const dispatch = useDispatch();
+  const profiles = useSelector((state) => state.profile.profiles);
+  const selectedProfiles = useSelector((state) => state.profile.selectedProfiles);
+
   const [open, setOpen] = useState(false);
-  const [profiles, setProfiles] = useState([]);
-  const [selected, setSelected] = useState([]);
   const [search, setSearch] = useState("");
   const [newUser, setNewUser] = useState("");
 
@@ -20,56 +24,50 @@ const SelectProfile = ({ onChange }) => {
     try {
       const res = await api.get("/api/get-profile");
       if (Array.isArray(res.data.data)) {
-        setProfiles(res.data.data.filter((p) => p && p.name));
-      } else {
-        setProfiles([]);
+        const validProfiles = res.data.data.filter((p) => p && p.name);
+        dispatch(setProfiles(validProfiles));
       }
     } catch (err) {
       console.error("Error fetching profiles:", err);
-      setProfiles([]);
     }
   };
 
-  // Toggle profile selection
+  // Toggle selection
   const toggleProfile = (profile) => {
-    setSelected((prev) => {
-      const exists = prev.find((p) => p._id === profile._id);
-      const updated = exists
-        ? prev.filter((p) => p._id !== profile._id)
-        : [...prev, profile];
-      onChange(updated);
-      return updated;
-    });
+    const exists = selectedProfiles.find((p) => p._id === profile._id);
+    const updated = exists
+      ? selectedProfiles.filter((p) => p._id !== profile._id)
+      : [...selectedProfiles, profile];
+
+    dispatch(setSelectedProfiles(updated));
   };
 
-  // Add new profile and fetch updated list
-  const addProfile = async () => {
+  // Add new profile
+  const handleAddProfile = async () => {
     if (!newUser.trim()) return;
 
     try {
-      await api.post("/api/create-profile", { name: newUser });
-      setNewUser(""); // clear input immediately
-
-      // Fetch the updated profiles from backend
-      await fetchProfiles();
-
-      setOpen(true); // keep dropdown open
+      const res = await api.post("/api/create-profile", { name: newUser });
+      if (res.data.data) {
+        dispatch(addProfile(res.data.data)); // add and select globally
+        setNewUser(""); // clear input
+        setOpen(true);
+      }
     } catch (err) {
       console.error("Error adding profile:", err);
     }
   };
 
-  // Filter profiles based on search input
   const filteredProfiles = profiles.filter(
-    (p) => p && p.name && p.name.toLowerCase().includes(search.toLowerCase())
+    (p) => p.name.toLowerCase().includes(search.toLowerCase())
   );
 
   return (
     <div className="multi-select">
-      <div className="select-box" onClick={() => setOpen(!open)}>
+      <div className="select-box"  onClick={() => setOpen(!open)} style={{width: width}}>
         <span>
-          {selected.length
-            ? `${selected.length} profile${selected.length > 1 ? "s" : ""} selected`
+          {selectedProfiles.length
+            ? `${selectedProfiles.length} profile${selectedProfiles.length > 1 ? "s" : ""} selected`
             : "Select current profile"}
         </span>
         <RiExpandUpDownLine />
@@ -82,11 +80,12 @@ const SelectProfile = ({ onChange }) => {
             placeholder="Search profile..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
+            onKeyDown={(e) => e.key === "Enter" && handleAddProfile()}
           />
 
           <ul className="user-list">
             {filteredProfiles.map((profile) => {
-              const isActive = selected.some((p) => p._id === profile._id);
+              const isActive = selectedProfiles.some((p) => p._id === profile._id);
               return (
                 <li
                   key={profile._id}
@@ -105,11 +104,8 @@ const SelectProfile = ({ onChange }) => {
               placeholder="Add new user"
               value={newUser}
               onChange={(e) => setNewUser(e.target.value)}
-              onKeyDown={(e) => {
-                if (e.key === "Enter") addProfile();
-              }}
             />
-            <button onClick={addProfile}>Add</button>
+            <button onClick={handleAddProfile}>Add</button>
           </div>
         </div>
       )}

@@ -1,0 +1,70 @@
+.create-event-panel {
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  font-family: Arial, sans-serif;
+}
+
+.create-event-panel h2 {
+  margin-bottom: 20px;
+}
+
+.form-group {
+  margin-bottom: 15px;
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  margin-bottom: 5px;
+  font-weight: 500;
+}
+
+/* Date & Time styling */
+.datetime-group {
+  display: flex;
+  flex-direction: column; /* stack start/end vertically */
+  gap: 15px;
+  
+}
+
+.datetime-wrapper {
+  width: 100%;
+}
+
+.datetime-input.full-width {
+  display: flex;
+  gap: 10px;
+  margin-top: 5px;
+  width: 100%;
+}
+
+.datetime-input.full-width input {
+  flex: 1; /* inputs share equal width */
+  padding: 8px 10px;
+  border-radius: 5px;
+  color: #5f5f5f;
+  font-weight: 700;
+  border: 1px solid #ccc;
+}
+
+/* Button styling */
+.create-event-btn {
+  width: 100%;
+  padding: 10px;
+  background: #6c63ff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 15px;
+}
+
+/* Responsive: stack date/time on small screens */
+@media (max-width: 500px) {
+  .datetime-input.full-width {
+    flex-direction: column;
+  }
+}
