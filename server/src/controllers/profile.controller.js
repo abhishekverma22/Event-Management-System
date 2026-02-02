@@ -20,7 +20,21 @@ export const createProfile = async (req, res) => {
 
     const newProfile = await ProfileModel.create(payload);
     sendSuccess(res, "User account create successfully", 201);
+
   } catch (error) {
     return sendError(res, error, 500);
+  }
+};
+
+export const getProfiles = async (req, res) => {
+  try {
+    const profiles = await ProfileModel.find().sort({ name: 1 });
+
+    return res.status(200).json({
+      success: true,
+      data: profiles,
+    });
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
   }
 };

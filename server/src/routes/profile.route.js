@@ -1,8 +1,9 @@
 import express from "express";
-import { createProfile } from "../controllers/profile.controller.js";
+import { createProfile, getProfiles } from "../controllers/profile.controller.js";
 
 const profileRouter = express.Router();
 
-profileRouter.post("/", createProfile);
+profileRouter.post("/create-profile", createProfile);
+profileRouter.get("/get-profile", getProfiles)
 
 export default profileRouter;

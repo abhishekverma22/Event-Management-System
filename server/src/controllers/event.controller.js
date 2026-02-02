@@ -28,13 +28,20 @@ export const createEvent = async (req, res) => {
   }
 };
 
+
+
 export const updateEvent = async (req, res) => {
   try {
     const { event_id, user_id } = req.params;
+
+
     const { participants, time_zone, start_date_time, end_date_time } =
       req.body;
 
+      console.log(participants)
+
     const event = await EventModel.findById(event_id);
+
     if (!event) {
       return sendError(res, "Event not found", 404);
     }

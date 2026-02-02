@@ -1,9 +1,11 @@
 import express from "express";
+import dotenv from "dotenv"
 import cors from "cors";
 import cookiesParser from "cookie-parser";
 import profileRouter from "./routes/profile.route.js";
 import eventRouter from "./routes/event.route.js";
 
+dotenv.config()
 const app = express();
 
 app.use(
@@ -26,7 +28,7 @@ app.get("/", (req, res) => {
 });
 
 // Routes
-app.use("/api/create-profile", profileRouter);
+app.use("/api", profileRouter);
 app.use("/api/event", eventRouter)
 
 export { app };

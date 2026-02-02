@@ -1,1 +1,2 @@
 # Event-Management-System
+*Event Management System where an admin can create multiple profiles and manage events across multiple users and timezones. where users can view, update, and create events, respecting their selected timezone.*

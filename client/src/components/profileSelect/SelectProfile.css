@@ -1,0 +1,130 @@
+/* ================= Root ================= */
+.multi-select {
+  position: relative;
+  width: 320px;
+  font-family: Arial, sans-serif;
+}
+
+/* ================= Select box ================= */
+.select-box {
+  height: 44px;
+  padding: 0 14px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  background: #f9fafb;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.select-box:hover {
+  border-color: #7c5cff;
+}
+
+.arrow {
+  font-size: 14px;
+  color: #888;
+}
+
+/* ================= Dropdown ================= */
+.dropdown {
+  position: absolute;
+  top: 52px;
+  width: 100%;
+  background: #fff;
+  border: 1px solid #e5e5e5;
+  border-radius: 10px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  z-index: 1000;
+  padding: 10px;
+}
+
+/* ================= Search input ================= */
+.search {
+  width: 100%;
+  padding: 10px 12px 10px 36px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  font-size: 14px;
+
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%23999' viewBox='0 0 16 16'%3E%3Cpath d='M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85zm-5.242.656a5 5 0 1 1 0-10 5 5 0 0 1 0 10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: 12px center;
+}
+
+.search:focus {
+  outline: none;
+  border-color: #7c5cff;
+}
+
+/* ================= User list ================= */
+.user-list {
+  list-style: none;
+  padding: 6px 0;
+  margin: 8px 0;
+  max-height: 180px;
+  overflow-y: auto;
+}
+
+/* ================= User item ================= */
+.user-item {
+  padding: 10px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+margin: 6px 0px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.user-item:hover {
+  background: #f2f2f2;
+}
+
+.user-item.active {
+  background: rgb(235, 235, 235);
+}
+
+/* ================= Tick ================= */
+.tick {
+  font-size: 14px;
+}
+
+/* ================= Add user ================= */
+.add-user {
+  display: flex;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.add-user input {
+  flex: 1;
+  padding: 9px 10px;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+  font-size: 14px;
+}
+
+.add-user input:focus {
+  outline: none;
+  border-color: #7c5cff;
+}
+
+.add-user button {
+  padding: 9px 14px;
+  border: none;
+  border-radius: 6px;
+background: #6a4fe0;
+  color: #fff;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.add-user button:hover {
+  background: #472eb6;
+}
