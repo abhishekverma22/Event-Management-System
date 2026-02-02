@@ -7,9 +7,8 @@ The **Event Management System** is a robust full-stack web application designed 
 Fullstack (MERN)
 
 ## Deployed App
-*   **Frontend**: http://localhost:5173 (Development)
-*   **Backend**: http://localhost:8000 (Development)
-*   **Database**: MongoDB Atlas (Connected via URI)
+*   **Live Demo**: https://event-management-system-phi-eight.vercel.app
+
 
 ## Directory Structure
 ```
@@ -51,6 +50,28 @@ Event-Management-System/
 *   **Instant Updates**: Real-time state management ensuring new users and events appear immediately without page refreshes.
 *   **Responsive Design**: Seamless experience across Desktop, Tablet, and Mobile devices.
 
+## App Snapshots
+
+### Login Page
+![Login Page](client/src/assets/login.png)
+*Secure login interface with role-based redirection.*
+
+### Admin Dashboard
+![Admin Dashboard](client/src/assets/admin-dashboard.png)
+*Comprehensive admin controls for managing users and events.*
+
+### User Dashboard
+![User Dashboard](client/src/assets/user-dashboard.png)
+*Personalized view for users to track their scheduled events.*
+
+### Edit Event
+![Edit Event](client/src/assets/Edit-event.png)
+*Easy-to-use interface for modifying event details.*
+
+### Event Logs
+![Event Logs](client/src/assets/Events-logs.png)
+*Detailed history tracking of all event modifications.*
+
 ## Design Decisions & Assumptions
 *   **Authentication**: We chose **JWT (JSON Web Tokens)** stored in HTTP-Only cookies for enhanced security against XSS attacks.
 *   **State Management**: **Redux Toolkit** is used for handling profile data globally to ensure "Select Profiles" features are always in sync.
@@ -67,7 +88,7 @@ Event-Management-System/
 
 1.  **Clone the Repository**
     ```bash
-    git clone <repository_url>
+    git clone  https://github.com/abhishekverma22/Event-Management-System.git
     cd Event-Management-System
     ```
 
@@ -109,10 +130,13 @@ Event-Management-System/
     *   **Create New User**: Add new team members to the system.
     *   **Create Event**: Schedule events for specific users or yourself.
     *   **View Events**: See all events in the system.
+     *   **Edit Events**: Edit events in the system.
+     *   **See Event Logs**: See event logs of the events.
 3.  **User Dashboard**:
     *   **My Events**: View events scheduled for you.
-    *   **Create Event**: Schedule your own events.
-    *   **Theme**: Toggle the sun/moon icon in the top right to switch themes.
+    *   **Create Event**: Schedule your own events with other member.
+    *   **Edit Events**: Edit your own events.
+    *   **See Event Logs**: See event logs of the events.
 
 ## Credentials
 
@@ -120,7 +144,7 @@ Event-Management-System/
 *   **Username**: `admin`
 *   **Password**: `admin`
 
-**Default Admin** (Use if seeding fresh DB):
+**Default  User**
 *   **Username**: `user`
 *   **Password**: `user`
 
@@ -140,7 +164,7 @@ The application uses its own RESTful API served by the Express backend. No third
 ### Events
 *   `POST /api/event/create-event`: Create a new scheduled event.
 *   `GET /api/event/by-profile/:id`: Get all events associated with a specific user ID.
-*   `PUT /api/event/update-event/:id`: Update event details (time, paticipants).
+*   `PUT /api/event/update-event/:id`: Update event details (time, paticipants, timezone).
 *   `GET /api/event/logs/:eventId`: Fetch change logs for a specific event.
 
 ## Technology Stack
@@ -160,4 +184,4 @@ The application uses its own RESTful API served by the Express backend. No third
 *   **Bcrypt.js**: Password hashing.
 *   **JsonWebToken**: Secure authentication.
 
----
+
