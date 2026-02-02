@@ -1,10 +1,7 @@
-/* ================= Profile Fetch Container ================= */
 .profile-fetch-container {
   width: 300px;
   position: relative;
 }
-
-/* ================= Profile Select Box ================= */
 .profile-select-box {
   border: 1px solid #ccc;
   padding: 10px;
@@ -17,7 +14,6 @@
   font-size: 14px;
 }
 
-/* ================= Dropdown ================= */
 .profile-dropdown {
   position: absolute;
   width: 100%;
@@ -61,12 +57,9 @@
   font-weight: 600;
 }
 
-/* ================= Profile Details ================= */
 .profile-details {
   margin-top: 20px;
 }
-
-/* ================= Selects Container ================= */
 .selects-container {
   display: flex;
   gap: 20px;
@@ -75,20 +68,16 @@
   width: 100%;
 }
 
-/* Equal width columns */
 .multi-select,
 .timezone-select {
   flex: 1;
-  min-width: 0; /* IMPORTANT: fixes alignment issue */
+  min-width: 0; 
 }
 
-/* Profile select full width */
 .multi-select .select-box,
 .profile-fetch-container {
   width: 100%;
 }
-
-/* ================= Timezone Select ================= */
 .timezone-select select {
   width: 100%;
   padding: 8px;
@@ -100,9 +89,6 @@
   background: #fff;
 }
 
-/* ==================== RESPONSIVE ==================== */
-
-/* Tablets */
 @media (max-width: 900px) {
   .selects-container {
     gap: 15px;
@@ -129,10 +115,9 @@
   }
 }
 
-/* Mobile */
 @media (max-width: 600px) {
   .selects-container {
-    flex-direction: column; /* STACK FIX */
+    flex-direction: column; 
     gap: 12px;
   }
 
@@ -161,7 +146,6 @@
   }
 }
 
-/* Very small devices */
 @media (max-width: 400px) {
   .profile-select-box {
     padding: 6px;

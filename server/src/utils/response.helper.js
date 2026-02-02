@@ -6,10 +6,11 @@ export const sendError = (res, error, statusCode) => {
   });
 };
 
-export const sendSuccess = (res, message, statusCode)=>{
+export const sendSuccess = (res, message, statusCode, data) => {
     return res.status(statusCode).json({
         message: message,
         success: true,
-        error:false
+        error: false,
+        data: data
     })
 }

@@ -37,10 +37,8 @@ const ProfileFetch = () => {
 
   return (
     <div>
-      {/* SELECT BOXES CONTAINER */}
-      <div className="selects-container" style={{ display: "flex", alignItems: "center", gap:"30px" }}>
-        {/* Profile Select */}
-        <div className="multi-select" style={{ flex: 1  }}>
+      <div className="selects-container" style={{ display: "flex", alignItems: "center", gap: "30px" }}>
+        <div className="multi-select" style={{ flex: 1 }}>
           <div className="select-box" onClick={() => setOpen(!open)}>
             <span>
               {selectedProfile ? selectedProfile.name : "Select User"}
@@ -60,9 +58,8 @@ const ProfileFetch = () => {
                 {filteredProfiles.map((profile) => (
                   <li
                     key={profile._id}
-                    className={`user-item ${
-                      selectedProfile?._id === profile._id ? "active" : ""
-                    }`}
+                    className={`user-item ${selectedProfile?._id === profile._id ? "active" : ""
+                      }`}
                     onClick={() => handleSelect(profile)}
                   >
                     {profile.name}
@@ -78,15 +75,14 @@ const ProfileFetch = () => {
           )}
         </div>
 
-        {/* Timezone Select */}
-        <div className="timezone-select" style={{ flex: 1}}>
+        <div className="timezone-select" style={{ flex: 1 }}>
           <TimezoneSelect value={timezone} onChange={(tz) => setTimezone(tz)} />
         </div>
       </div>
 
-      {/* EVENTS DETAILS */}
+
       {selectedProfile && (
-        <ProfileDetails profile={selectedProfile} timezone={timezone} />
+        <ProfileDetails profile={selectedProfile} allProfiles={profiles} timezone={timezone} />
       )}
     </div>
   );

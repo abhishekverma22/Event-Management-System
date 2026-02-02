@@ -5,11 +5,13 @@ import { IoNewspaperOutline } from "react-icons/io5";
 import api from "../../api/axios";
 import moment from "moment-timezone";
 import EditEvent from "../updateEvent/EditEvent"; 
+import EventLogs from "./EventLogs";
 import "./ProfileDetails.css";
 
-const ProfileDetails = ({ profile, timezone }) => {
+const ProfileDetails = ({ profile, allProfiles, timezone }) => {
   const [events, setEvents] = useState([]);
   const [editingEvent, setEditingEvent] = useState(null);
+  const [viewingLogsEvent, setViewingLogsEvent] = useState(null);
 
   useEffect(() => {
     if (profile?._id) fetchEvents();
@@ -41,13 +43,24 @@ const ProfileDetails = ({ profile, timezone }) => {
         {profile.name}'s Events
       </h3>
 
-      {/* EDIT EVENT COMPONENT */}
+     
       {editingEvent && (
         <EditEvent
           event={editingEvent}
+          currentUser={profile}
           timezone={timezone}
           onClose={() => setEditingEvent(null)}
           onUpdated={fetchEvents}
+        />
+      )}
+
+    
+      {viewingLogsEvent && (
+        <EventLogs
+          event={viewingLogsEvent}
+          allProfiles={allProfiles}
+          timezone={timezone}
+          onClose={() => setViewingLogsEvent(null)}
         />
       )}
 
@@ -80,12 +93,15 @@ const ProfileDetails = ({ profile, timezone }) => {
             <div className="event-buttons">
               <button
                 className="btn edit-btn"
-                onClick={() => setEditingEvent(event)} // 👈 OPEN EDIT
+                onClick={() => setEditingEvent(event)} 
               >
                 <FaRegEdit /> Edit
               </button>
 
-              <button className="btn logs-btn">
+              <button
+                className="btn logs-btn"
+                onClick={() => setViewingLogsEvent(event)}
+              >
                 <IoNewspaperOutline /> View Logs
               </button>
             </div>

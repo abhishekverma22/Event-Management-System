@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import moment from "moment-timezone";
 import "./CreateEvent.css";
 import SelectProfile from "../profileSelect/SelectProfile";
 import TimezoneSelect from "./TimezoneSelect";
@@ -30,7 +31,7 @@ const CreateEvent = () => {
       return false;
     }
 
-    // 2️⃣ If start date is today, time must not be in past
+    // If start date is today, time must not be in past
     const today = new Date();
     today.setHours(0, 0, 0, 0);
 
@@ -61,11 +62,19 @@ const CreateEvent = () => {
     // Extract only profile IDs
     const participants = selectedProfiles.map((p) => p._id);
 
+    const start_date_time = moment
+      .tz(`${startDate} ${startTime}`, selectedTimezone)
+      .toISOString();
+
+    const end_date_time = moment
+      .tz(`${endDate} ${endTime}`, selectedTimezone)
+      .toISOString();
+
     const payload = {
       participants,
       time_zone: selectedTimezone,
-      start_date_time: `${startDate}T${startTime}`,
-      end_date_time: `${endDate}T${endTime}`,
+      start_date_time,
+      end_date_time,
     };
 
     try {

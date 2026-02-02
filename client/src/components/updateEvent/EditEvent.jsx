@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
 import moment from "moment-timezone";
 import SelectProfile from "../profileSelect/SelectProfile";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setSelectedProfiles } from "../../redux/store/profileSlice";
-import axios from "axios";
+import api from "../../api/axios";
 import "./EditEvent.css";
 
-const EditEvent = ({ event, onClose, onUpdated }) => {
+const EditEvent = ({ event, currentUser, onClose, onUpdated }) => {
   const dispatch = useDispatch();
+  const selectedProfiles = useSelector((state) => state.profile.selectedProfiles);
 
   const [timezone, setTimezone] = useState(event.time_zone);
   const [startDate, setStartDate] = useState("");
@@ -15,9 +16,7 @@ const EditEvent = ({ event, onClose, onUpdated }) => {
   const [endDate, setEndDate] = useState("");
   const [endTime, setEndTime] = useState("");
 
-  // ✅ PREFILL DATA WHEN MODAL OPENS
   useEffect(() => {
-    // 👉 THIS IS THE MOST IMPORTANT LINE
     dispatch(setSelectedProfiles(event.participants || []));
 
     const start = moment.utc(event.start_date_time).tz(event.time_zone);
@@ -38,11 +37,12 @@ const EditEvent = ({ event, onClose, onUpdated }) => {
       .tz(`${endDate} ${endTime}`, timezone)
       .toISOString();
 
-    await axios.put(`/api/event/${event._id}`, {
-      participants: event.participants.map(p => p._id),
+    await api.put(`/api/event/${event._id}`, {
+      participants: selectedProfiles.map(p => p._id),
       time_zone: timezone,
       start_date_time,
       end_date_time,
+      updated_by: currentUser?._id,
     });
 
     onUpdated();
@@ -54,7 +54,6 @@ const EditEvent = ({ event, onClose, onUpdated }) => {
       <div className="dialog-box">
         <h2>Edit Event</h2>
 
-        {/* ✅ USERS ALREADY SELECTED */}
         <SelectProfile />
 
         <div className="timezone-select">

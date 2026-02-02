@@ -1,16 +1,15 @@
-/* Overlay (background) */
+
 .dialog-overlay {
   position: fixed;
-  inset: 0; /* top:0 right:0 bottom:0 left:0 */
+  inset: 0; 
   background: rgba(0, 0, 0, 0.45);
   display: flex;
-  align-items: center;       /* vertical center */
-  justify-content: center;   /* horizontal center */
+  align-items: center;       
+  justify-content: center;   
   z-index: 9999;
-  padding: 20px; /* for small screens */
+  padding: 20px; 
 }
 
-/* Modal box */
 .dialog-box {
   background: #fff;
   width: 100%;
@@ -22,14 +21,12 @@
   box-sizing: border-box;
 }
 
-/* Heading */
 .dialog-box h2 {
   margin-bottom: 15px;
   font-size: 22px;
   color: #333;
 }
 
-/* Timezone select */
 .timezone-select select {
   width: 100%;
   padding: 8px;
@@ -39,7 +36,6 @@
   font-size: 14px;
 }
 
-/* Date & time rows */
 .date-time-row {
   display: flex;
   gap: 10px;
@@ -54,7 +50,6 @@
   font-size: 14px;
 }
 
-/* Buttons */
 .dialog-actions {
   display: flex;
   justify-content: flex-end;
@@ -79,7 +74,6 @@
   color: #fff;
 }
 
-/* Animation */
 @keyframes popup {
   from {
     transform: scale(0.95);
@@ -91,7 +85,6 @@
   }
 }
 
-/* Mobile responsive */
 @media (max-width: 480px) {
   .dialog-box {
     padding: 15px;

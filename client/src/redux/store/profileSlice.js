@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   selectedProfiles: [],
-  profiles: [], // store all profiles globally
+  profiles: [], 
 };
 
 const profileSlice = createSlice({
@@ -13,11 +13,11 @@ const profileSlice = createSlice({
       state.selectedProfiles = action.payload;
     },
     setProfiles: (state, action) => {
-      state.profiles = action.payload; // update all profiles
+      state.profiles = action.payload; 
     },
     addProfile: (state, action) => {
-      state.profiles.unshift(action.payload); // add to profile list
-      state.selectedProfiles.push(action.payload); // optionally select it
+      state.profiles.unshift(action.payload); 
+      state.selectedProfiles.push(action.payload); 
     },
   },
 });

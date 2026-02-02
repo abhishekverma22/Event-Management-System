@@ -3,14 +3,13 @@
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-/* Events list */
 .events-list {
   display: flex;
   flex-direction: column;
   gap: 20px;
 }
 
-/* Individual event card */
+
 .event-card {
   background-color: #fff;
   border: 1px solid #e0e0e0;
@@ -19,7 +18,7 @@
   box-shadow: 0 2px 6px rgba(0,0,0,0.05);
 }
 
-/* Participants section */
+
 .participants {
   display: flex;
   align-items: center;
@@ -34,27 +33,22 @@
   font-size: 22px;
 }
 
-/* Event dates */
 .event-dates div {
   margin-bottom: 5px;
   color: #555;
   font-size: 14px;
 }
 
-/* Divider */
 .divider {
   border: none;
   border-top: 1px solid #eee;
   margin: 10px 0;
 }
 
-/* Timestamps */
 .timestamps small {
   color: #999;
   font-size: 12px;
 }
-
-/* ================= Buttons ================= */
 .event-buttons {
   margin-top: 12px;
   display: flex;
@@ -77,7 +71,6 @@
   gap: 6px;
 }
 
-/* Button variants */
 .edit-btn {
   background-color: #f7f3f3;
   font-size: 16px;
@@ -91,9 +84,6 @@
   color: #333;
 }
 
-/* ---------------- Responsive Design ---------------- */
-
-/* Medium screens (Tablets) */
 @media (max-width: 900px) {
   .event-card {
     padding: 12px 16px;

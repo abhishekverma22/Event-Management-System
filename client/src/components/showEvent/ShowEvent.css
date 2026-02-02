@@ -6,21 +6,16 @@
   box-sizing: border-box;
 }
 
-/* Heading */
 .show-event-container h1 {
   margin-bottom: 20px;
   font-size: 28px;
   color: #333;
 }
 
-/* ProfileFetch container */
 .show-event-container .profile-events-container {
   width: 100%;
 }
 
-/* ---------------- Responsive Design ---------------- */
-
-/* Tablets */
 @media (max-width: 900px) {
   .show-event-container {
     padding: 16px;
@@ -32,7 +27,7 @@
   }
 }
 
-/* Mobile */
+
 @media (max-width: 600px) {
   .show-event-container {
     padding: 12px;
@@ -44,7 +39,7 @@
   }
 }
 
-/* Very small devices */
+
 @media (max-width: 400px) {
   .show-event-container {
     padding: 10px;

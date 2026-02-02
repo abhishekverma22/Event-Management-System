@@ -21,7 +21,7 @@ const SelectProfile = ({ width = "100%" }) => {
   const [search, setSearch] = useState("");
   const [newUser, setNewUser] = useState("");
 
-  // Fetch profiles once
+  // Fetch profiles 
   useEffect(() => {
     fetchProfiles();
   }, []);

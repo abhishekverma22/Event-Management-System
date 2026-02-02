@@ -2,7 +2,6 @@ import './App.css'
 import EventPage from './pages/EventPage'
 
 function App() {
-  
 
   return (
   <>

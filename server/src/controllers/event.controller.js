@@ -9,7 +9,6 @@ export const createEvent = async (req, res) => {
     const { participants, time_zone, start_date_time, end_date_time } =
       req.body;
 
-    //   check start and end date and time
     if (new Date(end_date_time) <= new Date(start_date_time)) {
       return sendError(res, "End date-time must be after start date-time", 400);
     }
@@ -34,7 +33,6 @@ export const getEventsByProfile = async (req, res) => {
     const { profile_id } = req.params;
     const { time_zone } = req.query;
 
-    // Find all events where this profile_id is in participants array
     const events = await EventModel.find({
       participants: profile_id,
     }).sort({ start_date_time: 1 });
@@ -47,8 +45,6 @@ export const getEventsByProfile = async (req, res) => {
         data: [],
       });
     }
-
-    // Fetch all profiles once to map IDs to names
     const allProfileIds = events.flatMap((e) => e.participants);
     const profiles = await ProfileModel.find({ _id: { $in: allProfileIds } });
 
@@ -57,11 +53,9 @@ export const getEventsByProfile = async (req, res) => {
       profileMap[p._id] = p.name;
     });
 
-    // Format events
     const formattedEvents = events.map((event) => {
       const obj = event.toObject();
 
-      // Convert timezone if provided
       if (time_zone) {
         obj.start_date_time = moment
           .utc(obj.start_date_time)
@@ -73,7 +67,6 @@ export const getEventsByProfile = async (req, res) => {
           .format();
       }
 
-      // Replace participant IDs with {_id, name}
       obj.participants = obj.participants.map((pId) => ({
         _id: pId,
         name: profileMap[pId] || "Unknown",
@@ -101,7 +94,7 @@ export const getEventsByProfile = async (req, res) => {
 export const updateEvent = async (req, res) => {
   try {
     const { event_id } = req.params;
-    const { participants, time_zone, start_date_time, end_date_time } =
+    const { participants, time_zone, start_date_time, end_date_time, updated_by } =
       req.body;
 
     const event = await EventModel.findById(event_id);
@@ -109,7 +102,7 @@ export const updateEvent = async (req, res) => {
 
     const changes = {};
 
-    /* Participants */
+  
     if (participants) {
       const oldP = event.participants.map(String).sort();
       const newP = participants.map(String).sort();
@@ -120,13 +113,13 @@ export const updateEvent = async (req, res) => {
       }
     }
 
-    /* Timezone */
+    
     if (time_zone && time_zone !== event.time_zone) {
       changes.time_zone = { old: event.time_zone, new: time_zone };
       event.time_zone = time_zone;
     }
 
-    /* Date & Time */
+    
     if (start_date_time || end_date_time) {
       const tz = time_zone || event.time_zone;
 
@@ -154,19 +147,32 @@ export const updateEvent = async (req, res) => {
     }
 
     if (Object.keys(changes).length === 0) {
-      return sendError(res, "No changes detected", 400);
+      return sendSuccess(res, "No changes detected", 200, event);
     }
 
     await event.save();
 
-    /* OPTIONAL: log without user */
+
     await EventLogModel.create({
       event: event._id,
-      updated_by: null, // ✅ SAFE
+      updated_by: updated_by || null,
       changes,
     });
 
     return sendSuccess(res, "Event updated successfully", 200, event);
+  } catch (error) {
+    return sendError(res, error.message, 500);
+  }
+};
+
+export const getEventLogs = async (req, res) => {
+  try {
+    const { event_id } = req.params;
+    const logs = await EventLogModel.find({ event: event_id })
+      .populate("updated_by", "name")
+      .sort({ createdAt: -1 });
+
+    return sendSuccess(res, "Logs fetched successfully", 200, logs);
   } catch (error) {
     return sendError(res, error.message, 500);
   }

@@ -10,7 +10,14 @@ const app = express();
 
 app.use(
   cors({
-    origin: process.env.CORS_ORIGIN,
+    origin: function (origin, callback) {
+      const allowedOrigin = process.env.CORS_ORIGIN;
+      if (!origin || origin.startsWith("http://localhost") || origin === allowedOrigin) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
     credentials: true,
   }),
 );
@@ -22,12 +29,11 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookiesParser());
 
 
-// Test routes
+
 app.get("/", (req, res) => {
   res.json({ msg: "This is test route" });
 });
 
-// Routes
 app.use("/api", profileRouter);
 app.use("/api/event", eventRouter)
 

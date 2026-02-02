@@ -11,7 +11,7 @@ const eventLogSchema = new mongoose.Schema(
     updated_by: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Profile",
-      required: [true, "User id is required"],
+      required: false,
     },
 
     changes: {

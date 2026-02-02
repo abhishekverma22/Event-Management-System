@@ -1,0 +1,48 @@
+.log-item {
+  background-color: #f9f9f9;
+  border: 1px solid #eee;
+  border-radius: 6px;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.log-meta {
+  font-size: 0.85rem;
+  color: #666;
+  margin-bottom: 6px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.log-user {
+  font-weight: 600;
+  color: #333;
+}
+
+.log-time {
+  color: #888;
+}
+
+.change-row {
+  font-size: 0.9rem;
+  margin-bottom: 4px;
+  padding-left: 10px;
+  border-left: 2px solid #ddd;
+}
+
+.change-field {
+  text-transform: capitalize;
+  font-weight: 600;
+  margin-right: 5px;
+}
+
+.old-val {
+  color: #d9534f;
+  text-decoration: line-through;
+  margin-right: 8px;
+}
+
+.new-val {
+  color: #28a745;
+  font-weight: 500;
+}
