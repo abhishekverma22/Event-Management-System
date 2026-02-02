@@ -53,11 +53,19 @@ export const loginProfile = async (req, res) => {
     const token = generateToken(user._id, user.role);
 
     // Send cookie
+    // Determine environment for cookie settings
+    // If we're on Render, we trust the proxy to tell us if we're secure.
+    // If headers.origin contains 'vercel.app' or 'onrender.com', we should treat it as cross-site/production.
+    const origin = req.headers.origin || "";
+    const isProduction = process.env.NODE_ENV === "production" || origin.includes("vercel.app") || origin.includes("onrender.com");
+
+    // Send cookie
     res.cookie("token", token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+      secure: isProduction, // Secure is required for SameSite: None
+      sameSite: isProduction ? "none" : "lax",
       maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
+      path: "/",
     });
 
     sendSuccess(res, "Login successful", 200, {
@@ -72,9 +80,14 @@ export const loginProfile = async (req, res) => {
 };
 
 export const logoutProfile = async (req, res) => {
-  res.cookie("token", "", {
+  const origin = req.headers.origin || "";
+  const isProduction = process.env.NODE_ENV === "production" || origin.includes("vercel.app") || origin.includes("onrender.com");
+  
+  res.clearCookie("token", {
     httpOnly: true,
-    expires: new Date(0),
+    secure: isProduction,
+    sameSite: isProduction ? "none" : "lax",
+    path: "/",
   });
   sendSuccess(res, "Logged out successfully", 200);
 };
