@@ -1,7 +1,7 @@
 import moment from "moment-timezone";
 import { EventModel } from "../models/event.model.js";
 import { sendError, sendSuccess } from "../utils/response.helper.js";
-import { EventLogModel } from "../models/eventlog.model.js";
+import { EventLogModel } from "../models/eventLog.model.js";
 import { ProfileModel } from "../models/profile.model.js";
 
 export const createEvent = async (req, res) => {
