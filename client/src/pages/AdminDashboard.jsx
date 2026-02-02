@@ -15,11 +15,14 @@ const AdminDashboard = () => {
                     <CreateUser />
                 </section>
 
-                <div style={{ display: "flex", gap: "20px" }}>
-                    <section style={{ flex: 1 }}>
+                <div className="dashboard-layout">
+                    {/* Create Event */}
+                    <section className="dashboard-column">
                         <CreateEvent />
                     </section>
-                    <section style={{ flex: 1 }}>
+
+                    {/* Show Event */}
+                    <section className="dashboard-column">
                         <ShowEvent />
                     </section>
                 </div>

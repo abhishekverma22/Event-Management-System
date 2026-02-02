@@ -20,7 +20,7 @@ const UserDashboard = () => {
                 <Heading />
             </header>
             <div className="event-container" style={{ display: "block" }}>
-            
+
                 <section style={{ marginBottom: "2rem", backgroundColor: "var(--card-bg)", padding: "20px", borderRadius: "10px" }}>
                     <h3>Timezone Settings</h3>
                     <div style={{ margin: "10px 0" }}>
@@ -29,12 +29,12 @@ const UserDashboard = () => {
                     </div>
                 </section>
 
-                <div style={{ display: "flex", gap: "20px", flexWrap: "wrap" }}>
-                    <section style={{ flex: 1, minWidth: "300px" }}>
+                <div className="dashboard-layout">
+                    <section className="dashboard-column">
                         <CreateEvent onEventCreated={handleEventCreated} />
                     </section>
 
-                    <section style={{ flex: 1, minWidth: "300px" }}>
+                    <section className="dashboard-column">
                         {user && (
                             <ProfileDetails
                                 profile={user}

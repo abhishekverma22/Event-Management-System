@@ -84,4 +84,28 @@ select {
     .login-card {
         padding: 1.5rem !important;
     }
+
+
+}
+
+/* Dashboard Layout Grid */
+.dashboard-layout {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    align-items: flex-start;
+    /* Align to top */
+}
+
+.dashboard-column {
+    flex: 1;
+    min-width: 340px;
+    /* Allows side-by-side on tablets (768px+), stacks on mobile */
+}
+
+@media (max-width: 768px) {
+    .dashboard-column {
+        min-width: 100%;
+        /* Force full width on mobile devices */
+    }
 }

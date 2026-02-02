@@ -7,22 +7,28 @@
 }
 
 .login-card {
-    background: white;
+    background: var(--card-bg);
+    /* Use variable */
     padding: 2.5rem;
     border-radius: 12px;
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
     width: 100%;
     max-width: 400px;
     text-align: center;
+    color: var(--text-color);
+    /* Use variable */
 }
 
 .login-card h2 {
     margin-bottom: 0.5rem;
-    color: #333;
+    color: var(--text-color);
+    /* Use variable */
 }
 
 .subtitle {
-    color: #666;
+    color: var(--text-color);
+    /* Use variable */
+    opacity: 0.8;
     margin-bottom: 2rem;
     font-size: 0.95rem;
 }
@@ -36,7 +42,8 @@
     display: block;
     margin-bottom: 0.5rem;
     font-weight: 500;
-    color: #444;
+    color: var(--text-color);
+    /* Use variable */
 }
 
 .form-group input {

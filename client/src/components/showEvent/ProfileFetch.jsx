@@ -6,7 +6,10 @@ import ProfileDetails from "./ProfileDetails";
 import TimezoneSelect from "./timeZone/TimezoneSelect";
 import "../profileSelect/SelectProfile.css";
 
+import { useAuth } from "../../context/AuthContext";
+
 const ProfileFetch = () => {
+  const { user } = useAuth();
   const [profiles, setProfiles] = useState([]);
   const [selectedProfile, setSelectedProfile] = useState(null);
   const [open, setOpen] = useState(false);
@@ -16,6 +19,14 @@ const ProfileFetch = () => {
   useEffect(() => {
     fetchProfiles();
   }, []);
+
+  
+  
+  useEffect(() => {
+    if (user && !selectedProfile) {
+      setSelectedProfile(user);
+    }
+  }, [user]);
 
   const fetchProfiles = async () => {
     try {
@@ -37,7 +48,7 @@ const ProfileFetch = () => {
 
   return (
     <div>
-      <div className="selects-container" style={{ display: "flex", alignItems: "center", gap: "30px" }}>
+      <div className="selects-container" style={{ display: "flex", alignItems: "center", gap: "30px", marginBottom: "30px" }}>
         <div className="multi-select" style={{ flex: 1 }}>
           <div className="select-box" onClick={() => setOpen(!open)}>
             <span>
