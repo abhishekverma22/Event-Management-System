@@ -1,0 +1,103 @@
+/* Overlay (background) */
+.dialog-overlay {
+  position: fixed;
+  inset: 0; /* top:0 right:0 bottom:0 left:0 */
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;       /* vertical center */
+  justify-content: center;   /* horizontal center */
+  z-index: 9999;
+  padding: 20px; /* for small screens */
+}
+
+/* Modal box */
+.dialog-box {
+  background: #fff;
+  width: 100%;
+  max-width: 520px;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  animation: popup 0.25s ease-out;
+  box-sizing: border-box;
+}
+
+/* Heading */
+.dialog-box h2 {
+  margin-bottom: 15px;
+  font-size: 22px;
+  color: #333;
+}
+
+/* Timezone select */
+.timezone-select select {
+  width: 100%;
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  margin: 12px 0;
+  font-size: 14px;
+}
+
+/* Date & time rows */
+.date-time-row {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.date-time-row input {
+  flex: 1;
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+}
+
+/* Buttons */
+.dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.dialog-actions button {
+  padding: 8px 16px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.dialog-actions button:first-child {
+  background: #f0f0f0;
+}
+
+.dialog-actions button:last-child {
+  background: #6c63ff;
+  color: #fff;
+}
+
+/* Animation */
+@keyframes popup {
+  from {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Mobile responsive */
+@media (max-width: 480px) {
+  .dialog-box {
+    padding: 15px;
+  }
+
+  .date-time-row {
+    flex-direction: column;
+  }
+}

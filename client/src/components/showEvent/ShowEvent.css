@@ -1,0 +1,57 @@
+.show-event-container {
+  min-height: 50vh;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  background-color: #f9fafb;
+  box-sizing: border-box;
+}
+
+/* Heading */
+.show-event-container h1 {
+  margin-bottom: 20px;
+  font-size: 28px;
+  color: #333;
+}
+
+/* ProfileFetch container */
+.show-event-container .profile-events-container {
+  width: 100%;
+}
+
+/* ---------------- Responsive Design ---------------- */
+
+/* Tablets */
+@media (max-width: 900px) {
+  .show-event-container {
+    padding: 16px;
+  }
+
+  .show-event-container h1 {
+    font-size: 24px;
+    margin-bottom: 16px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+  .show-event-container {
+    padding: 12px;
+  }
+
+  .show-event-container h1 {
+    font-size: 20px;
+    margin-bottom: 14px;
+  }
+}
+
+/* Very small devices */
+@media (max-width: 400px) {
+  .show-event-container {
+    padding: 10px;
+  }
+
+  .show-event-container h1 {
+    font-size: 18px;
+    margin-bottom: 12px;
+  }
+}

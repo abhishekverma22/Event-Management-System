@@ -30,7 +30,7 @@ const CreateEvent = () => {
       return false;
     }
 
-    //  If start date is today, time must not be in past
+    // 2️⃣ If start date is today, time must not be in past
     const today = new Date();
     today.setHours(0, 0, 0, 0);
 
@@ -61,7 +61,6 @@ const CreateEvent = () => {
     // Extract only profile IDs
     const participants = selectedProfiles.map((p) => p._id);
 
-    if (!isValidDateTimeRange()) return;
     const payload = {
       participants,
       time_zone: selectedTimezone,

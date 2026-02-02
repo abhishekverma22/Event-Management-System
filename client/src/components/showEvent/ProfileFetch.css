@@ -1,0 +1,175 @@
+/* ================= Profile Fetch Container ================= */
+.profile-fetch-container {
+  width: 300px;
+  position: relative;
+}
+
+/* ================= Profile Select Box ================= */
+.profile-select-box {
+  border: 1px solid #ccc;
+  padding: 10px;
+  cursor: pointer;
+  background: #fff;
+  border-radius: 6px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 14px;
+}
+
+/* ================= Dropdown ================= */
+.profile-dropdown {
+  position: absolute;
+  width: 100%;
+  background: white;
+  border: 1px solid #ccc;
+  z-index: 10;
+  border-radius: 6px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.profile-dropdown input {
+  width: 100%;
+  padding: 8px;
+  border: none;
+  border-bottom: 1px solid #eee;
+  outline: none;
+  box-sizing: border-box;
+  font-size: 14px;
+}
+
+.profile-dropdown ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.profile-dropdown li {
+  padding: 8px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.profile-dropdown li:hover {
+  background: #f0f0f0;
+}
+
+.profile-dropdown li.active {
+  background: #e6f0ff;
+  font-weight: 600;
+}
+
+/* ================= Profile Details ================= */
+.profile-details {
+  margin-top: 20px;
+}
+
+/* ================= Selects Container ================= */
+.selects-container {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+/* Equal width columns */
+.multi-select,
+.timezone-select {
+  flex: 1;
+  min-width: 0; /* IMPORTANT: fixes alignment issue */
+}
+
+/* Profile select full width */
+.multi-select .select-box,
+.profile-fetch-container {
+  width: 100%;
+}
+
+/* ================= Timezone Select ================= */
+.timezone-select select {
+  width: 100%;
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  outline: none;
+  cursor: pointer;
+  font-size: 14px;
+  background: #fff;
+}
+
+/* ==================== RESPONSIVE ==================== */
+
+/* Tablets */
+@media (max-width: 900px) {
+  .selects-container {
+    gap: 15px;
+  }
+
+  .profile-select-box {
+    padding: 8px;
+    font-size: 13px;
+  }
+
+  .profile-dropdown input {
+    padding: 7px;
+    font-size: 13px;
+  }
+
+  .profile-dropdown li {
+    padding: 7px;
+    font-size: 13px;
+  }
+
+  .timezone-select select {
+    padding: 7px;
+    font-size: 13px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+  .selects-container {
+    flex-direction: column; /* STACK FIX */
+    gap: 12px;
+  }
+
+  .profile-fetch-container {
+    width: 100%;
+  }
+
+  .profile-select-box {
+    padding: 7px;
+    font-size: 12px;
+  }
+
+  .profile-dropdown input {
+    padding: 6px;
+    font-size: 12px;
+  }
+
+  .profile-dropdown li {
+    padding: 6px;
+    font-size: 12px;
+  }
+
+  .timezone-select select {
+    padding: 7px;
+    font-size: 12px;
+  }
+}
+
+/* Very small devices */
+@media (max-width: 400px) {
+  .profile-select-box {
+    padding: 6px;
+    font-size: 11px;
+  }
+
+  .timezone-select select {
+    padding: 6px;
+    font-size: 11px;
+  }
+}

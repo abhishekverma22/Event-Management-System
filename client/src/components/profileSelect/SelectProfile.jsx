@@ -1,21 +1,27 @@
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { setSelectedProfiles, setProfiles, addProfile } from "../../redux/store/profileSlice.js"
+import {
+  setSelectedProfiles,
+  setProfiles,
+  addProfile,
+} from "../../redux/store/profileSlice";
 import { RiExpandUpDownLine } from "react-icons/ri";
 import { FaCheck } from "react-icons/fa";
 import api from "../../api/axios";
 import "./SelectProfile.css";
 
-const SelectProfile = ({width}) => {
+const SelectProfile = ({ width = "100%" }) => {
   const dispatch = useDispatch();
   const profiles = useSelector((state) => state.profile.profiles);
-  const selectedProfiles = useSelector((state) => state.profile.selectedProfiles);
+  const selectedProfiles = useSelector(
+    (state) => state.profile.selectedProfiles
+  );
 
   const [open, setOpen] = useState(false);
   const [search, setSearch] = useState("");
   const [newUser, setNewUser] = useState("");
 
-  // Fetch profiles on mount
+  // Fetch profiles once
   useEffect(() => {
     fetchProfiles();
   }, []);
@@ -24,17 +30,15 @@ const SelectProfile = ({width}) => {
     try {
       const res = await api.get("/api/get-profile");
       if (Array.isArray(res.data.data)) {
-        const validProfiles = res.data.data.filter((p) => p && p.name);
-        dispatch(setProfiles(validProfiles));
+        dispatch(setProfiles(res.data.data));
       }
     } catch (err) {
-      console.error("Error fetching profiles:", err);
+      console.error(err);
     }
   };
 
-  // Toggle selection
   const toggleProfile = (profile) => {
-    const exists = selectedProfiles.find((p) => p._id === profile._id);
+    const exists = selectedProfiles.some((p) => p._id === profile._id);
     const updated = exists
       ? selectedProfiles.filter((p) => p._id !== profile._id)
       : [...selectedProfiles, profile];
@@ -42,33 +46,36 @@ const SelectProfile = ({width}) => {
     dispatch(setSelectedProfiles(updated));
   };
 
-  // Add new profile
   const handleAddProfile = async () => {
     if (!newUser.trim()) return;
 
     try {
       const res = await api.post("/api/create-profile", { name: newUser });
       if (res.data.data) {
-        dispatch(addProfile(res.data.data)); // add and select globally
-        setNewUser(""); // clear input
-        setOpen(true);
+        dispatch(addProfile(res.data.data));
+        dispatch(setSelectedProfiles([...selectedProfiles, res.data.data]));
+        setNewUser("");
       }
     } catch (err) {
-      console.error("Error adding profile:", err);
+      console.error(err);
     }
   };
 
-  const filteredProfiles = profiles.filter(
-    (p) => p.name.toLowerCase().includes(search.toLowerCase())
+  const filteredProfiles = profiles.filter((p) =>
+    p.name.toLowerCase().includes(search.toLowerCase())
   );
 
   return (
     <div className="multi-select">
-      <div className="select-box"  onClick={() => setOpen(!open)} style={{width: width}}>
+      <div
+        className="select-box"
+        onClick={() => setOpen(!open)}
+        style={{ width }}
+      >
         <span>
           {selectedProfiles.length
-            ? `${selectedProfiles.length} profile${selectedProfiles.length > 1 ? "s" : ""} selected`
-            : "Select current profile"}
+            ? selectedProfiles.map((p) => p.name).join(", ")
+            : "Select users"}
         </span>
         <RiExpandUpDownLine />
       </div>
@@ -80,12 +87,13 @@ const SelectProfile = ({width}) => {
             placeholder="Search profile..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            onKeyDown={(e) => e.key === "Enter" && handleAddProfile()}
           />
 
           <ul className="user-list">
             {filteredProfiles.map((profile) => {
-              const isActive = selectedProfiles.some((p) => p._id === profile._id);
+              const isActive = selectedProfiles.some(
+                (p) => p._id === profile._id
+              );
               return (
                 <li
                   key={profile._id}
@@ -93,7 +101,11 @@ const SelectProfile = ({width}) => {
                   onClick={() => toggleProfile(profile)}
                 >
                   {profile.name}
-                  {isActive && <span className="tick"><FaCheck /></span>}
+                  {isActive && (
+                    <span className="tick">
+                      <FaCheck />
+                    </span>
+                  )}
                 </li>
               );
             })}
