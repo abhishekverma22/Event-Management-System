@@ -8,17 +8,33 @@ import eventRouter from "./routes/event.route.js";
 dotenv.config()
 const app = express();
 
+app.set("trust proxy", 1);
+
 app.use(
   cors({
     origin: function (origin, callback) {
-      const allowedOrigin = process.env.CORS_ORIGIN;
-      if (!origin || origin.startsWith("http://localhost") || origin === allowedOrigin) {
+      const allowedOrigins = [
+        process.env.CORS_ORIGIN,
+        "http://localhost:5173", 
+        "http://localhost:3000"
+      ];
+      
+      // Allow requests with no origin (like mobile apps or curl requests)
+      if (!origin) return callback(null, true);
+      
+      if (
+        allowedOrigins.includes(origin) ||
+        origin.endsWith(".vercel.app") || // Allow all Vercel deployments
+        origin.endsWith(".onrender.com")  // Allow all Render deployments
+      ) {
         callback(null, true);
       } else {
+        console.log("Blocked by CORS:", origin);
         callback(new Error("Not allowed by CORS"));
       }
     },
     credentials: true,
+    allowedHeaders: ["Content-Type", "Authorization"],
   }),
 );
 

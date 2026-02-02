@@ -7,6 +7,11 @@ export const verifyJWT = async (req, res, next) => {
     const token =
       req.cookies?.token || req.header("Authorization")?.replace("Bearer ", "");
 
+    // Debug logging for production issues
+    console.log("VerifyJWT called. Cookies:", req.cookies ? "Present" : "Missing");
+    console.log("Authorization Header:", req.header("Authorization") ? "Present" : "Missing");
+    console.log("Token found:", !!token);
+
     if (!token) {
       return sendError(res, "Unauthorized request", 401);
     }
