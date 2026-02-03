@@ -1,29 +1,29 @@
 import React, { useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 import "./Login.css";
 
 const Login = () => {
     const [name, setName] = useState("");
     const [password, setPassword] = useState("");
-    const [error, setError] = useState("");
     const { login } = useAuth();
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setError("");
 
         if (!name || !password) {
-            setError("Please fill in all fields");
+            toast.error("Please fill in all fields");
             return;
         }
 
         const res = await login(name, password);
         if (res.success) {
+            toast.success("Logged in successfully!");
             navigate("/");
         } else {
-            setError(res.message);
+            toast.error(res.message);
         }
     };
 
@@ -32,8 +32,6 @@ const Login = () => {
             <div className="login-card">
                 <h2>Welcome Back</h2>
                 <p className="subtitle">Sign in to manage your events</p>
-
-                {error && <div className="error-msg">{error}</div>}
 
                 <form onSubmit={handleSubmit}>
                     <div className="form-group">

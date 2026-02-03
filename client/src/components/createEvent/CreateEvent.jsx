@@ -6,6 +6,7 @@ import TimezoneSelect from "./TimezoneSelect";
 import api from "../../api/axios.js";
 import { useSelector, useDispatch } from "react-redux";
 import { setSelectedProfiles } from "../../redux/store/profileSlice.js";
+import toast from "react-hot-toast";
 
 const CreateEvent = ({ onEventCreated }) => {
   const dispatch = useDispatch();
@@ -25,13 +26,13 @@ const CreateEvent = ({ onEventCreated }) => {
     const start = new Date(`${startDate}T${startTime}`);
     const end = new Date(`${endDate}T${endTime}`);
 
-    // End must be after start
+
     if (end <= start) {
-      alert("End date & time must be after start date & time");
+      toast.error("End date & time must be after start date & time");
       return false;
     }
 
-    // If start date is today, time must not be in past
+
     const today = new Date();
     today.setHours(0, 0, 0, 0);
 
@@ -39,7 +40,7 @@ const CreateEvent = ({ onEventCreated }) => {
     startDay.setHours(0, 0, 0, 0);
 
     if (startDay.getTime() === today.getTime() && start < now) {
-      alert("Start time cannot be in the past");
+      toast.error("Start time cannot be in the past");
       return false;
     }
 
@@ -55,11 +56,12 @@ const CreateEvent = ({ onEventCreated }) => {
       !endDate ||
       !endTime
     ) {
-      alert("All fields are required");
+      toast.error("All fields are required");
       return;
     }
 
-    // Extract only profile IDs
+    if (!isValidDateTimeRange()) return;
+
     const participants = selectedProfiles.map((p) => p._id);
 
     const start_date_time = moment
@@ -79,7 +81,7 @@ const CreateEvent = ({ onEventCreated }) => {
 
     try {
       const res = await api.post("api/event/create-event", payload);
-      alert("Event created successfully ✅");
+      toast.success("Event created successfully ✅");
       setSelectedTimezone("");
       setStartDate("");
       setStartTime("09:00");
@@ -87,17 +89,15 @@ const CreateEvent = ({ onEventCreated }) => {
       setEndTime("09:00");
       dispatch(setSelectedProfiles([]));
 
-      // Trigger callback to refresh events list
       if (onEventCreated) onEventCreated();
 
       console.log(res.data);
     } catch (error) {
       console.error(error, "error.......");
 
-      alert("Failed to create event ❌");
+      toast.error("Failed to create event ❌");
     }
   };
-  // Get today's date in YYYY-MM-DD format for min attribute
   const today = new Date().toISOString().split("T")[0];
 
   return (

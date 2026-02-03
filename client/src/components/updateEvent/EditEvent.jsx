@@ -4,6 +4,7 @@ import SelectProfile from "../profileSelect/SelectProfile";
 import { useDispatch, useSelector } from "react-redux";
 import { setSelectedProfiles } from "../../redux/store/profileSlice";
 import api from "../../api/axios";
+import toast from "react-hot-toast";
 import "./EditEvent.css";
 
 const EditEvent = ({ event, currentUser, onClose, onUpdated }) => {
@@ -29,24 +30,30 @@ const EditEvent = ({ event, currentUser, onClose, onUpdated }) => {
   }, [event, dispatch]);
 
   const handleUpdate = async () => {
-    const start_date_time = moment
-      .tz(`${startDate} ${startTime}`, timezone)
-      .toISOString();
+    try {
+      const start_date_time = moment
+        .tz(`${startDate} ${startTime}`, timezone)
+        .toISOString();
 
-    const end_date_time = moment
-      .tz(`${endDate} ${endTime}`, timezone)
-      .toISOString();
+      const end_date_time = moment
+        .tz(`${endDate} ${endTime}`, timezone)
+        .toISOString();
 
-    await api.put(`/api/event/${event._id}`, {
-      participants: selectedProfiles.map(p => p._id),
-      time_zone: timezone,
-      start_date_time,
-      end_date_time,
-      updated_by: currentUser?._id,
-    });
+      await api.put(`/api/event/${event._id}`, {
+        participants: selectedProfiles.map(p => p._id),
+        time_zone: timezone,
+        start_date_time,
+        end_date_time,
+        updated_by: currentUser?._id,
+      });
 
-    onUpdated();
-    onClose();
+      toast.success("Event updated successfully!");
+      onUpdated();
+      onClose();
+    } catch (error) {
+      console.error(error);
+      toast.error("Failed to update event");
+    }
   };
 
   return (

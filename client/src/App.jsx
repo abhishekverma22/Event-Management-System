@@ -1,4 +1,5 @@
 import './App.css'
+import { Toaster } from 'react-hot-toast';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import Login from './pages/Login';
 import AdminDashboard from './pages/AdminDashboard';
@@ -15,6 +16,7 @@ function App() {
 
   return (
     <>
+      <Toaster position="top-right" />
       {user && (
         <div className="app-bar">
           <div className="welcome">Hello, <strong>{user.name}</strong> ({user.role})</div>

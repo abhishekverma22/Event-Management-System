@@ -3,14 +3,13 @@ import api from "../../api/axios";
 import "./CreateUser.css";
 import { useDispatch } from "react-redux";
 import { addProfile } from "../../redux/store/profileSlice";
+import toast from "react-hot-toast";
 
 const CreateUser = () => {
     const dispatch = useDispatch();
     const [name, setName] = useState("");
     const [password, setPassword] = useState("");
     const [role, setRole] = useState("user");
-    const [msg, setMsg] = useState("");
-    const [error, setError] = useState(false);
 
     const handleCreate = async (e) => {
         e.preventDefault();
@@ -24,18 +23,16 @@ const CreateUser = () => {
             });
 
             if (res.data.success) {
-                setMsg("User created successfully!");
-                setError(false);
+                toast.success("User created successfully!");
                 setName("");
                 setPassword("");
-              
+
                 if (res.data.data) {
                     dispatch(addProfile(res.data.data));
                 }
             }
         } catch (err) {
-            setError(true);
-            setMsg(err.response?.data?.message || "Failed to create user");
+            toast.error(err.response?.data?.message || "Failed to create user");
         }
     };
 
@@ -63,7 +60,6 @@ const CreateUser = () => {
                 </select>
                 <button type="submit">Create User</button>
             </form>
-            {msg && <p className={error ? "error-text" : "success-text"}>{msg}</p>}
         </div>
     );
 };

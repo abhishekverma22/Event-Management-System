@@ -19,7 +19,7 @@ const SelectProfile = ({ width = "100%" }) => {
 
   const [open, setOpen] = useState(false);
   const [search, setSearch] = useState("");
-  // Fetch profiles 
+  
   useEffect(() => {
     fetchProfiles();
   }, []);
